@@ -1,0 +1,18 @@
+{
+	"name": "name",
+	"rotation_period": "rotation_period",
+	"orbital_period": "orbital_period",
+	"diameter": "diameter",
+	"climate": "climate",
+	"gravity": "gravity",
+	"terrain": "terrain",
+	"surface_water": "surface_water",
+	"population": "population",
+	"residents": [],
+	"films": [
+		"https://swapi.dev/api/films/1/"
+	],
+	"created": "created",
+	"edited": "edited",
+	"url": "url"
+}
