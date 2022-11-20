@@ -16,6 +16,9 @@ def api_library():
     return ApiLibrary()
 
 
+test_err_msg_path = Path.joinpath(Path(__file__).resolve().parent, "test_data", "test_err_msg.json")
+
+
 @patch("atf.libraries.ApiLibrary.Popen")
 def test_start_api(mock, api_library):
     api_library._uvicorn_process = Mock(Process)
@@ -41,16 +44,15 @@ def test_send_request(mock, api_library):
 
 
 def test_verify_api_response_eq_values(api_library):
-    json = JsonFileReader.read_file(Path.joinpath(Path(__file__).resolve().parent, "test_data",
-                                                  "test_err_msg.json"))
-    api_library.verify_api_response(json, "ERROR_MSG", "test_data/test_err_msg.json")
+    json = JsonFileReader.read_file(test_err_msg_path)
+    api_library.verify_api_response(json, "ERROR_MSG", test_err_msg_path)
 
 
 def test_verify_api_response_neq_values(api_library):
     with raises(AssertionError, match="Actual model: detail='XYZ' != expected model: detail='detail'"):
-        api_library.verify_api_response({"detail": "XYZ"}, "ERROR_MSG", "test_data/test_err_msg.json")
+        api_library.verify_api_response({"detail": "XYZ"}, "ERROR_MSG", test_err_msg_path)
 
 
 def test_verify_api_response_different_models(api_library):
     with raises(ValidationError, match=r".*value is not a valid list.*"):
-        api_library.verify_api_response({"detail": "XYZ"}, "VALIDATION_ERR_MSG", "test_data/test_err_msg.json")
+        api_library.verify_api_response({"detail": "XYZ"}, "VALIDATION_ERR_MSG", test_err_msg_path)

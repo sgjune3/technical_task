@@ -38,7 +38,7 @@ class ApiLibrary:
             resp = session.send(req.prepare())
             return resp
 
-    def verify_api_response(self, json_dict: dict, model: str, path_to_json_file: str) -> None:
+    def verify_api_response(self, json_dict: dict, model: str, path_to_json_file: Path) -> None:
         """
         Compare Json/API response with json file.
         :param json_dict: API response represented as json used for creating actual model
@@ -49,7 +49,7 @@ class ApiLibrary:
         """
         model_factory = ApiModelFactory(model)
         actual_model = model_factory.create_model(**json_dict)
-        expected_model = model_factory.create_model(**JsonFileReader.read_file(Path(path_to_json_file)))
+        expected_model = model_factory.create_model(**JsonFileReader.read_file(path_to_json_file))
         assert actual_model == expected_model, f"Actual model: {actual_model} != expected model: {expected_model}"
 
     def start_api(self) -> None:
