@@ -5,7 +5,7 @@ from pydantic import BaseModel
 from starlette.status import HTTP_404_NOT_FOUND
 
 from rest_api.data_generator import PeopleDataGenerator, PlanetsDataGenerator, StarshipsDataGenerator
-from rest_api.helper import get_api_data
+from rest_api.helper import get_api_data, random_slow_down
 from rest_api.models.error_msg import ErrorMsg
 from rest_api.models.people import People
 from rest_api.models.planets import Planets
@@ -23,6 +23,7 @@ starships_data = get_api_data(StarshipsDataGenerator(Path.joinpath(Path(__file__
 @app.get("/api/people/{person_id}", response_model=People,
          responses={HTTP_404_NOT_FOUND: {"content": {"application/json": {"example": {"detail": "Person not found"}}},
                                          "model": ErrorMsg}})
+@random_slow_down((150, 750))
 def get_people(person_id: int) -> BaseModel:
     """
     Returns person with matching person_id if person with provided id doesn't exist return 404
@@ -35,6 +36,7 @@ def get_people(person_id: int) -> BaseModel:
 @app.get("/api/planets/{planet_id}", response_model=Planets,
          responses={HTTP_404_NOT_FOUND: {"content": {"application/json": {"example": {"detail": "Planet not found"}}},
                                          "model": ErrorMsg}})
+@random_slow_down((100, 500))
 def get_planets(planet_id: int) -> BaseModel:
     """
     Returns planet with matching planet_id if planet with provided id doesn't exist return 404
@@ -47,6 +49,7 @@ def get_planets(planet_id: int) -> BaseModel:
 @app.get("/api/starships/{starship_id}", response_model=Starships, responses={
     HTTP_404_NOT_FOUND: {"content": {"application/json": {"example": {"detail": "Starship not found"}}},
                          "model": ErrorMsg}})
+@random_slow_down((50, 250))
 def get_starships(starship_id: int) -> BaseModel:
     """
     Returns starship with matching starship_id if starship with provided id doesn't exist return 404
