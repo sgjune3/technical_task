@@ -22,15 +22,13 @@ class ApiModelFactory:
         :raises: ValueError: when model is not supported
         :return: BaseModel
         """
-        if self.model_name == "PEOPLE":
-            return People(**kwargs)
-        elif self.model_name == "PLANETS":
-            return Planets(**kwargs)
-        elif self.model_name == "STARSHIPS":
-            return Starships(**kwargs)
-        elif self.model_name == "ERROR_MSG":
-            return ErrorMsg(**kwargs)
-        elif self.model_name == "VALIDATION_ERR_MSG":
-            return ValidationErrorMsg(**kwargs)
-        else:
-            raise ValueError(f"Unsupported model: {self.model_name}")
+        models = {
+            "PEOPLE": People,
+            "PLANETS": Planets,
+            "STARSHIPS": Starships,
+            "ERROR_MSG": ErrorMsg,
+            "VALIDATION_ERR_MSG": ValidationErrorMsg,
+        }
+        if self.model_name in models:
+            return models[self.model_name](**kwargs)
+        raise ValueError(f"Unsupported model: {self.model_name}")

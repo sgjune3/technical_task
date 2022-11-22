@@ -15,6 +15,7 @@ class ApiLibrary:
     """
     API testing library
     """
+
     def __init__(self):
         self._uvicorn_process = None
 
@@ -33,10 +34,26 @@ class ApiLibrary:
         :return: Response object
         """
         with Session() as session:
-            req = Request(method=http_method, url=url, headers=headers, data=data, params=params, auth=auth,
-                          cookies=cookies, json=json)
-            resp = session.send(req.prepare())
+            resp = session.send(self.create_request(http_method, url, headers, data, params, auth, cookies,
+                                                    json).prepare())
             return resp
+
+    def create_request(self, http_method: str, url: str, headers=None, data=None, params=None, auth=None, cookies=None,
+                       json=None) -> Request:
+        """
+        Creates Request object
+        :param http_method: *required*
+        :param url: *required*
+        :param headers: by default None
+        :param data: by default None
+        :param params: by default None
+        :param auth: by default None
+        :param cookies: by default None
+        :param json: by default None
+        :return: Response object
+        """
+        return Request(method=http_method, url=url, headers=headers, data=data, params=params, auth=auth,
+                       cookies=cookies, json=json)
 
     def verify_api_response(self, json_dict: dict, model: str, path_to_json_file: Path) -> None:
         """
