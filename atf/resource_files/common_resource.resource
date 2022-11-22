@@ -1,6 +1,7 @@
 |  *** Settings ***  |
 |  Documentation     |  A common resource file containing shared variables and libraries imports
 |  Library           |  ../libraries/ApiLibrary.py
+|  Library           |  ../libraries/PerformanceLibrary.py
 
 |  *** Variables *** |
 |  ${HOST}           |  http://127.0.0.1:8000
