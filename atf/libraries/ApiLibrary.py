@@ -5,7 +5,7 @@ from subprocess import Popen
 from requests import Session, Request, Response
 from robot.api.deco import library
 
-from atf.configs.config import APP_NAME, LOG_INI
+from atf.configs.config import APP_NAME, LOG_INI, HOST, PORT
 from atf.helpers.api_model_factory import ApiModelFactory
 from atf.helpers.file_reader import JsonFileReader
 
@@ -15,6 +15,7 @@ class ApiLibrary:
     """
     API testing library
     """
+
     def __init__(self):
         self._uvicorn_process = None
 
@@ -33,10 +34,26 @@ class ApiLibrary:
         :return: Response object
         """
         with Session() as session:
-            req = Request(method=http_method, url=url, headers=headers, data=data, params=params, auth=auth,
-                          cookies=cookies, json=json)
-            resp = session.send(req.prepare())
+            resp = session.send(self.create_request(http_method, url, headers, data, params, auth, cookies,
+                                                    json).prepare())
             return resp
+
+    def create_request(self, http_method: str, url: str, headers=None, data=None, params=None, auth=None, cookies=None,
+                       json=None) -> Request:
+        """
+        Creates Request object
+        :param http_method: *required*
+        :param url: *required*
+        :param headers: by default None
+        :param data: by default None
+        :param params: by default None
+        :param auth: by default None
+        :param cookies: by default None
+        :param json: by default None
+        :return: Response object
+        """
+        return Request(method=http_method, url=url, headers=headers, data=data, params=params, auth=auth,
+                       cookies=cookies, json=json)
 
     def verify_api_response(self, json_dict: dict, model: str, path_to_json_file: Path) -> None:
         """
@@ -57,7 +74,7 @@ class ApiLibrary:
         Start uvicorn process and wait 1 s to be sure that api is ready
         :return: None
         """
-        self._uvicorn_process = Popen(["uvicorn", APP_NAME, "--log-config", LOG_INI])
+        self._uvicorn_process = Popen(["uvicorn", APP_NAME, "--host", HOST, "--port", PORT, "--log-config", LOG_INI])
         sleep(1)
 
     def stop_api(self) -> None:

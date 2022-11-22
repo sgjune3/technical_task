@@ -25,4 +25,3 @@ class JsonFileReader(FileReader):
         """
         with open(file_path) as f:
             return json.load(f)
-
