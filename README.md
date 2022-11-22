@@ -1,10 +1,10 @@
 # Setup
-1. install Python (tested on Python 3.10.X)
+1. install Python (tested on Python 3.10.X (Linux) and 3.7.X (Windows))
 2. clone repository
 3. `cd` to the cloned repo folder
 4. create venv `python -m venv venv` or `python3 -m venv venv`
 5. activate venv 
-   1. On Windows run `.\venv\Scripts\activate`
+   1. On Windows run `. venv\Scripts\activate`
    2. On Linux `source venv/bin/activate`
 6. install required dependencies `pip install -r requirements.txt`
 
