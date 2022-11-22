@@ -6,7 +6,7 @@ from pydantic import ValidationError
 from pytest import fixture, raises
 from requests import Response, Request
 
-from atf.configs.config import APP_NAME, LOG_INI
+from atf.configs.config import APP_NAME, LOG_INI, HOST, PORT
 from atf.helpers.file_reader import JsonFileReader
 from atf.libraries.ApiLibrary import ApiLibrary
 
@@ -23,7 +23,7 @@ test_err_msg_path = Path.joinpath(Path(__file__).resolve().parent, "test_data", 
 def test_start_api(mock, api_library):
     api_library._uvicorn_process = Mock(Process)
     api_library.start_api()
-    mock.assert_called_with(['uvicorn', APP_NAME, '--log-config', LOG_INI])
+    mock.assert_called_with(["uvicorn", APP_NAME, "--host", HOST, "--port", PORT, "--log-config", LOG_INI])
 
 
 def test_stop_api(api_library):

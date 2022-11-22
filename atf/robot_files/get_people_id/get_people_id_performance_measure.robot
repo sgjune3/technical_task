@@ -1,9 +1,9 @@
-| *** Settings ***   |
-| Documentation      | GET /people/{id} performance measure
-| Resource           | ../../resource_files/common_resource.resource
-| Suite Setup        | start_api
-| Suite Teardown     | stop_api
-| Test tags          | task_2
+| *** Settings ***   |                                               |
+| Documentation      | GET /people/{id} performance measure          |
+| Resource           | ../../resource_files/common_resource.resource |
+| Suite Setup        | start_api                                     |
+| Suite Teardown     | stop_api                                      |
+| Test tags          | task_2                                        | performance
 
 | *** Variables ***              |
 | ${URL}                         | ${BASE_URL}/people

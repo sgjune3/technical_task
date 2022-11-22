@@ -5,7 +5,7 @@ from subprocess import Popen
 from requests import Session, Request, Response
 from robot.api.deco import library
 
-from atf.configs.config import APP_NAME, LOG_INI
+from atf.configs.config import APP_NAME, LOG_INI, HOST, PORT
 from atf.helpers.api_model_factory import ApiModelFactory
 from atf.helpers.file_reader import JsonFileReader
 
@@ -74,7 +74,7 @@ class ApiLibrary:
         Start uvicorn process and wait 1 s to be sure that api is ready
         :return: None
         """
-        self._uvicorn_process = Popen(["uvicorn", APP_NAME, "--log-config", LOG_INI])
+        self._uvicorn_process = Popen(["uvicorn", APP_NAME, "--host", HOST, "--port", PORT, "--log-config", LOG_INI])
         sleep(1)
 
     def stop_api(self) -> None:
